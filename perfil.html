@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Meu Perfil</title>
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <h2>Meus Agendamentos</h2>
+    <div id="agendamentos"></div>
+    <script>
+      async function carregarAgendamentos() {
+        const response = await fetch("../src/perfil.php");
+        const agendamentos = await response.json();
+        document.getElementById("agendamentos").innerHTML = agendamentos
+          .map(
+            (ag) => `
+                <div>${ag.veiculo} - ${ag.data_agendamento} ${ag.hora_agendamento}</div>
+            `
+          )
+          .join("");
+      }
+      carregarAgendamentos();
+    </script>
+  </body>
+</html>

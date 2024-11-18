@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Administração</title>
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <h2>Agendamentos Pendentes</h2>
+    <div id="admin-agendamentos"></div>
+    <script>
+      async function carregarAdminAgendamentos() {
+        const response = await fetch("../src/admin.php");
+        const agendamentos = await response.json();
+        document.getElementById("admin-agendamentos").innerHTML = agendamentos
+          .map(
+            (ag) => `
+                <div>${ag.veiculo} - ${ag.data_agendamento}
+                <button onclick="confirmar(${ag.id})">Confirmar</button></div>
+            `
+          )
+          .join("");
+      }
+      async function confirmar(id) {
+        await fetch(`../src/confirmar_agendamento.php?id=${id}`);
+        carregarAdminAgendamentos();
+      }
+      carregarAdminAgendamentos();
+    </script>
+  </body>
+</html>
